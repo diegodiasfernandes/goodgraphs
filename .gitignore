@@ -1,0 +1,5 @@
+testes.py
+__pycache__
+README.md
+.venv
+.mypy_cache

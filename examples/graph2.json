@@ -1,0 +1,8 @@
+{
+    "type": "undirected",
+    "vertices": [0, 1, 2],
+    "edges": [
+      [0, 1],
+      [1, 2]
+    ]
+  }
