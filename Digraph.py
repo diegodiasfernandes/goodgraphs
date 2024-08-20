@@ -13,8 +13,8 @@ class Digraph:
         '''
         self.n: int = 0
         self.m: int = 0
-        self.mind: int = 0
-        self.maxd: int = 0
+        self.mind: int | None = 0
+        self.maxd: int | None = 0
         self.vertices: list[int] = [-1]
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
