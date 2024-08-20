@@ -2,6 +2,14 @@ from Utils.typehinting import *
 from Utils.files import readJson, readMatrixTxt
 
 class Digraph:
+    class DFS:
+        def __init__(self, vertices) -> None:
+            self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in vertices}
+            self.parent: Dict[int, Union[int, None]] = {v: None for v in vertices}
+            self.start_time: Dict[int, int] = {v: 0 for v in vertices}
+            self.finish_time: Dict[int, int] = {v: 0 for v in vertices}
+            self.time: int = 0
+
     def __init__(self, data: dict | list[list[Union[int, float]]]) -> None:
         '''
         example of graph:
@@ -18,12 +26,15 @@ class Digraph:
         self.vertices: list[int] = [-1]
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
+
+        self.dfs = self.DFS(self.vertices)
         
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
         self.m = 0
         self.mind = None
         self.maxd = None
+        self.vertices = list(range(self.n))
         for vertex in self.adjList:
             deg = len(self.adjList[vertex])
             self.m += deg
@@ -113,6 +124,38 @@ class Digraph:
         
         return 0.0
 
+    def dfsStart(self, initial: int):
+        self.dfs = self.DFS(self.vertices)
+
+        vertices = self.vertices
+        vertices = [v for v in self.vertices if v != initial]
+        self.dfsSearch(initial)
+
+        for v in vertices:
+            if self.dfs.color[v] == 'white':
+                self.dfsSearch(v)
+    
+    def dfsSearch(self, vertex: int):
+        self.dfs.time += 1
+        self.dfs.start_time[vertex] = self.dfs.time
+        self.dfs.color[vertex] = "gray"
+
+        for neighbor in self.neighbors(vertex):
+            if self.dfs.color[neighbor] == "white":
+                self.dfs.parent[neighbor] = vertex
+                self.dfsSearch(neighbor)
+        
+        self.dfs.color[vertex] = "black"
+        self.dfs.time += 1
+        self.dfs.finish_time[vertex] = self.dfs.time
+
+    def dfsShowResults(self):
+        """Imprime os resultados da busca em profundidade"""
+        print("Vertex | Start | Finish | Parent")
+        print("------------------------------------")
+        for v in self.vertices:
+            print(f"{v}       | {self.dfs.start_time[v]}         | {self.dfs.finish_time[v]}       | {self.dfs.parent[v]}")
+
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
@@ -120,13 +163,10 @@ class Digraph:
             print(" " + str(i) + ": " + str(self.adjList[i]))
 
 if __name__ == '__main__':
-    data = readJson("examples\\dir_weights_1.json")
+    data = readMatrixTxt("examples\\adj_matrix.txt")
+    data = readJson("examples\\graph1.json")
     graph = Digraph(data)
     graph.printGraph()
-    print(graph.n)
-    print(graph.m)
-    print(graph.mind)
-    print(graph.maxd)
-    print(graph.neighbors(1))
-    print(graph.degree(1))
-    print(graph.weight(6, 0))
+    graph.dfsStart(1)
+    graph.dfsShowResults()
+    print(graph.vertices)
