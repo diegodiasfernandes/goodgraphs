@@ -90,6 +90,9 @@ class Digraph:
         
         return adj_list
     
+    def neighbors(self, vertex: int):
+        return self.adjList[vertex]
+
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
@@ -104,3 +107,4 @@ if __name__ == '__main__':
     print(graph.m)
     print(graph.mind)
     print(graph.maxd)
+    print(graph.neighbors(3))
