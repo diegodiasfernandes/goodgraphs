@@ -92,7 +92,14 @@ class Graph:
         return adj_list
     
     def neighbors(self, vertex: int):
-        return self.adjList[vertex]
+        neighbs: list[int] = []
+        for e in self.adjList[vertex]:
+            neighbs.append(e[0])
+
+        return neighbs
+
+    def degree(self, vertex: int):
+        return len(self.adjList[vertex])
 
     def printGraph(self) -> None:
         print("="*40)
@@ -109,3 +116,4 @@ if __name__ == '__main__':
     print(graph.mind)
     print(graph.maxd)
     print(graph.neighbors(3))
+    print(graph.degree(3))

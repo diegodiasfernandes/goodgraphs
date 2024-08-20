@@ -91,7 +91,20 @@ class Digraph:
         return adj_list
     
     def neighbors(self, vertex: int):
-        return self.adjList[vertex]
+        neighbs: list[int] = []
+        for e in self.adjList[vertex]:
+            neighbs.append(e[0])
+
+        return neighbs
+    
+    def degree(self, vertex: int):
+        deg: int = len(self.adjList[vertex])
+        for v in range(len(self.adjList)):
+            for e in self.adjList[v]:
+                if e[0] == vertex:
+                    deg -= 1
+
+        return deg
 
     def printGraph(self) -> None:
         print("="*40)
@@ -107,4 +120,5 @@ if __name__ == '__main__':
     print(graph.m)
     print(graph.mind)
     print(graph.maxd)
-    print(graph.neighbors(3))
+    print(graph.neighbors(1))
+    print(graph.degree(1))
