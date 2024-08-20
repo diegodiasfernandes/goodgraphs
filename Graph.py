@@ -101,6 +101,13 @@ class Graph:
     def degree(self, vertex: int):
         return len(self.adjList[vertex])
 
+    def weight(self, u: int, v: int) -> float:
+        for neighbor in range(len(self.adjList[u])):
+            if v == self.adjList[u][neighbor][0]:
+                return self.adjList[u][neighbor][1]
+        
+        return 0.0
+
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
@@ -117,3 +124,4 @@ if __name__ == '__main__':
     print(graph.maxd)
     print(graph.neighbors(3))
     print(graph.degree(3))
+    print(graph.weight(4, 0))

@@ -105,6 +105,13 @@ class Digraph:
                     deg -= 1
 
         return deg
+    
+    def weight(self, u: int, v: int) -> float:
+        for neighbor in range(len(self.adjList[u])):
+            if v == self.adjList[u][neighbor][0]:
+                return self.adjList[u][neighbor][1]
+        
+        return 0.0
 
     def printGraph(self) -> None:
         print("="*40)
@@ -122,3 +129,4 @@ if __name__ == '__main__':
     print(graph.maxd)
     print(graph.neighbors(1))
     print(graph.degree(1))
+    print(graph.weight(6, 0))
