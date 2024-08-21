@@ -4,3 +4,4 @@ README.md
 .venv
 .mypy_cache
 big_graph_for_tests
+examples
