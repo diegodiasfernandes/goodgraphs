@@ -20,9 +20,10 @@ class Digraph:
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
 
-        from SearchClasses import DFS, BFS
+        from SearchClasses import DFS, BFS, Dijkstra
         self.dfs: DFS.DFS | None = None
         self.bfs: BFS.BFS | None = None
+        self.dijkstra: Dijkstra.Dijkstra | None = None
         
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
@@ -112,12 +113,12 @@ class Digraph:
 
         return deg
     
-    def weight(self, u: int, v: int) -> float:
+    def weight(self, u: int, v: int) -> float | None:
         for neighbor in range(len(self.adjList[u])):
             if v == self.adjList[u][neighbor][0]:
                 return self.adjList[u][neighbor][1]
         
-        return 0.0
+        return None
 
     def dfsStart(self, initial: int = 0):
         if initial not in self.vertices: initial = self.vertices[0]
@@ -158,6 +159,24 @@ class Digraph:
             return None
         
         self.bfs.showResults()
+
+    def dijkstraStart(self, initial: int = 0):
+        if initial not in self.vertices: initial = self.vertices[0]
+        from SearchClasses.Dijkstra import Dijkstra
+        self.dijkstra = Dijkstra(self)
+        self.dijkstra.start(initial)
+    
+    def minPathDijkstra(self, u: int, v : int):
+        if self.dijkstra is None:
+            self.dijkstraStart(u)
+        return self.dijkstra.minPath(u, v)
+
+    def dijkstraAttributes(self):
+        if self.dijkstra is None:
+            print("dijkstra not initializes yet. Run self.dijkstraStart()")
+            return None
+        
+        return self.dijkstra.pi, self.dijkstra.distance
 
     def printGraph(self) -> None:
         print("="*40)
