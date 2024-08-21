@@ -16,27 +16,38 @@ class DFS:
         self.graph = graph
 
     def start(self, initial: int = 0):
-        vertices = self.graph.vertices
         vertices = [v for v in self.graph.vertices if v != initial]
+
+        # Iniciar a busca no vértice inicial
         self.search(initial)
 
+        # Continuar a busca para qualquer outro vértice não alcançado
         for v in vertices:
             if self.color[v] == 'white':
                 self.search(v)
-    
-    def search(self, vertex: int):
-        self.time += 1
-        self.t_init[vertex] = self.time
-        self.color[vertex] = "gray"
 
-        for neighbor in self.graph.neighbors(vertex):
-            if self.color[neighbor] == "white":
-                self.pi[neighbor] = vertex
-                self.search(neighbor)
-        
-        self.color[vertex] = "black"
-        self.time += 1
-        self.t_finish[vertex] = self.time
+    def search(self, vertex: int):
+        # Pilha para armazenar o estado da busca
+        stack = [(vertex, iter(self.graph.neighbors(vertex)))]
+
+        while stack:
+            current_vertex, neighbors = stack[-1]  # Verifica o topo da pilha
+            if self.color[current_vertex] == 'white':
+                self.time += 1
+                self.t_init[current_vertex] = self.time
+                self.color[current_vertex] = 'gray'
+
+            try:
+                neighbor = next(neighbors)
+                if self.color[neighbor] == 'white':
+                    self.pi[neighbor] = current_vertex
+                    stack.append((neighbor, iter(self.graph.neighbors(neighbor))))
+            except StopIteration:
+                # Todos os vizinhos foram visitados, marcar como 'black'
+                self.color[current_vertex] = 'black'
+                self.time += 1
+                self.t_finish[current_vertex] = self.time
+                stack.pop()  # Remove o vértice da pilha após finalizar
 
     def showResults(self):
         print("--------------------------------------------")

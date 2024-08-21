@@ -28,7 +28,7 @@ class Graph:
         self.m = 0
         self.mind = None
         self.maxd = None
-        self.vertices = list(range(self.n))
+        self.vertices = [v for v in self.adjList]
         for vertex in self.adjList:
             deg = len(self.adjList[vertex])
             self.m += deg
@@ -115,6 +115,7 @@ class Graph:
         return 0.0
 
     def dfsStart(self, initial: int = 0):
+        if initial not in self.vertices: initial = self.vertices[0]
         from SearchClasses.DFS import DFS
         self.dfs = DFS(self)
         self.dfs.start(initial)
@@ -136,7 +137,7 @@ class Graph:
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
-        for i in range(len(self.adjList)):
+        for i in self.adjList:
             print(" " + str(i) + ": " + str(self.adjList[i]))
 
 if __name__ == '__main__':

@@ -28,7 +28,7 @@ class Digraph:
         self.m = 0
         self.mind = None
         self.maxd = None
-        self.vertices = list(range(self.n))
+        self.vertices = [v for v in self.adjList]
         for vertex in self.adjList:
             deg = len(self.adjList[vertex])
             self.m += deg
@@ -104,7 +104,7 @@ class Digraph:
     
     def degree(self, vertex: int):
         deg: int = len(self.adjList[vertex])
-        for v in range(len(self.adjList)):
+        for v in self.adjList:
             for e in self.adjList[v]:
                 if e[0] == vertex:
                     deg -= 1
@@ -119,6 +119,7 @@ class Digraph:
         return 0.0
 
     def dfsStart(self, initial: int = 0):
+        if initial not in self.vertices: initial = self.vertices[0]
         from SearchClasses.DFS import DFS
         self.dfs = DFS(self)
         self.dfs.start(initial)
@@ -140,7 +141,7 @@ class Digraph:
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
-        for i in range(len(self.adjList)):
+        for i in self.adjList:
             print(" " + str(i) + ": " + str(self.adjList[i]))
 
 if __name__ == '__main__':

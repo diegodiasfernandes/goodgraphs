@@ -19,5 +19,23 @@ def readMatrixTxt(txt_file: str) -> List[List[Union[float]]]:
 
     return matrix
 
+def grFileToDict(gr_file: str) -> dict:
+    vertices: set = set()
+    edges: list = []
+    with open(gr_file, 'r') as file:
+        for line in file:
+            if line.startswith('a'):
+                parts = line.strip().split()
+
+                vertices.add(int(parts[1]))
+                edges.append([int(parts[1]), int(parts[2]), float(parts[3])])
+    
+    graph_dict: dict = {
+        "vertices": list(vertices),
+        "edges": edges
+    }
+
+    return graph_dict
+
 if __name__ == '__main__':
     print(readMatrixTxt("examples\\adj_matrix.txt"))
