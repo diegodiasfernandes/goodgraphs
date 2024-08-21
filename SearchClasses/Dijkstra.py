@@ -12,13 +12,6 @@ class Dijkstra:
         self.pi: Dict[int, Union[int, None]] = {v: None for v in graph.vertices}
         self.distance: Dict[int, float] = {v: math.inf for v in graph.vertices}
 
-        self.weights: list[list[float]] = []
-        for u in graph.vertices:
-            line: list[float] = []
-            for v in graph.vertices:
-                line.append(graph.weight(u, v))
-            self.weights.append(line)
-
         self.graph = graph
 
         self.last_initial: int | None = None
@@ -32,7 +25,7 @@ class Dijkstra:
 
             if not(u_d > self.distance[u]):
                 for neighbor in self.graph.neighbors(u):
-                    weight = self.weights[u][neighbor]
+                    weight = self.graph.weight(u, neighbor)
                     distance = u_d + weight
 
                     if distance < self.distance[neighbor]:
