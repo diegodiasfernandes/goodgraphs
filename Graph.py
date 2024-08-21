@@ -3,14 +3,6 @@ from Utils.files import readJson, readMatrixTxt
 import math
 
 class Graph:
-    class DFS:
-        def __init__(self, vertices: list[int]) -> None:
-            self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in vertices}
-            self.parent: Dict[int, Union[int, None]] = {v: None for v in vertices}
-            self.start_time: Dict[int, int] = {v: 0 for v in vertices}
-            self.finish_time: Dict[int, int] = {v: 0 for v in vertices}
-            self.time: int = 0
-
     def __init__(self, data: dict | list[list[Union[int, float]]]) -> None:
         '''
         example of graph:
@@ -28,7 +20,8 @@ class Graph:
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
 
-        self.dfs = self.DFS(self.vertices)
+        from SearchClasses.DFS import DFS
+        self.dfs: DFS | None = None
         
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
@@ -122,39 +115,16 @@ class Graph:
         return 0.0
 
     def dfsStart(self, initial: int = 0):
-        self.dfs = self.DFS(self.vertices)
-
-        vertices = self.vertices
-        vertices = [v for v in self.vertices if v != initial]
-        self.dfsSearch(initial)
-
-        for v in vertices:
-            if self.dfs.color[v] == 'white':
-                self.dfsSearch(v)
-    
-    def dfsSearch(self, vertex: int):
-        self.dfs.time += 1
-        self.dfs.start_time[vertex] = self.dfs.time
-        self.dfs.color[vertex] = "gray"
-
-        for neighbor in self.neighbors(vertex):
-            if self.dfs.color[neighbor] == "white":
-                self.dfs.parent[neighbor] = vertex
-                self.dfsSearch(neighbor)
-        
-        self.dfs.color[vertex] = "black"
-        self.dfs.time += 1
-        self.dfs.finish_time[vertex] = self.dfs.time
+        from SearchClasses.DFS import DFS
+        self.dfs = DFS(self)
+        self.dfs.start(initial)
 
     def dfsShowResults(self):
-        """Imprime os resultados da busca em profundidade"""
-        print(" Vertex | Start | Finish | Parent")
-        print("------------------------------------")
-        for v in self.vertices:
-            space0: str = " " * (6 - math.floor(math.log10(max(1, v))))
-            space1: str = " " * (6 - math.floor(math.log10(max(1, self.dfs.start_time[v]))))
-            space2: str = " " * (7 - math.floor(math.log10(max(1, self.dfs.finish_time[v]))))
-            print(f" {v}{space0}|{self.dfs.start_time[v]}{space1}|{self.dfs.finish_time[v]}{space2}|{self.dfs.parent[v]}")
+        if self.dfs is None:
+            print("dfs not initializes yet. Run self.dfsStart()")
+            return None
+        
+        self.dfs.showResults()
 
     def printGraph(self) -> None:
         print("="*40)
@@ -167,6 +137,6 @@ if __name__ == '__main__':
     #data = readJson("examples\\graph1.json")
     graph = Graph(data)
     graph.printGraph()
-    graph.dfsStart()
+    graph.dfsStart(2)
     graph.dfsShowResults()
     print(graph.vertices)
