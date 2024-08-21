@@ -127,27 +127,23 @@ class Graph:
 
     def DFSShowResults(self):
         if self.dfs is None:
-            print("dfs not initializes yet. Run self.dfsStart()")
+            print("dfs not initializes yet. Run self.DFS()")
             return None
         
         self.dfs.showResults()
 
-    def bfsStart(self, initial: int = 0):
-        if initial not in self.vertices: initial = self.vertices[0]
-        from SearchClasses.BFS import BFS
-        self.bfs = BFS(self)
-        self.bfs.start(initial)
-    
-    def bfsAttributes(self):
+    def BFS(self, initial: int = 0):
         if self.bfs is None:
-            print("bfs not initializes yet. Run self.bfsStart()")
-            return None
+            if initial not in self.vertices: initial = self.vertices[0]
+            from SearchClasses.BFS import BFS
+            self.bfs = BFS(self)
+            self.bfs.start(initial)
         
         return self.bfs.pi, self.bfs.distance
 
-    def bfsShowResults(self):
+    def BFSShowResults(self):
         if self.bfs is None:
-            print("bfs not initializes yet. Run self.bfsStart()")
+            print("bfs not initializes yet. Run self.BFS()")
             return None
         
         self.bfs.showResults()
