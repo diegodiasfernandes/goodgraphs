@@ -120,20 +120,16 @@ class Digraph:
         
         return None
 
-    def dfsStart(self, initial: int = 0):
-        if initial not in self.vertices: initial = self.vertices[0]
-        from SearchClasses.DFS import DFS
-        self.dfs = DFS(self)
-        self.dfs.start(initial)
-
-    def dfsAttributes(self):
+    def DFS(self, initial: int = 0):
         if self.dfs is None:
-            print("dfs not initializes yet. Run self.dfsStart()")
-            return None
+            if initial not in self.vertices: initial = self.vertices[0]
+            from SearchClasses.DFS import DFS
+            self.dfs = DFS(self)
+            self.dfs.start(initial)
         
         return self.dfs.pi, self.dfs.t_init, self.dfs.t_finish
 
-    def dfsShowResults(self):
+    def DFSShowResults(self):
         if self.dfs is None:
             print("dfs not initializes yet. Run self.dfsStart()")
             return None
