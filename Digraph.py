@@ -1,9 +1,10 @@
 from Utils.typehinting import *
 from Utils.files import readJson, readMatrixTxt
+import math
 
 class Digraph:
     class DFS:
-        def __init__(self, vertices) -> None:
+        def __init__(self, vertices: list[int]) -> None:
             self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in vertices}
             self.parent: Dict[int, Union[int, None]] = {v: None for v in vertices}
             self.start_time: Dict[int, int] = {v: 0 for v in vertices}
@@ -124,7 +125,7 @@ class Digraph:
         
         return 0.0
 
-    def dfsStart(self, initial: int):
+    def dfsStart(self, initial: int = 0):
         self.dfs = self.DFS(self.vertices)
 
         vertices = self.vertices
@@ -151,10 +152,13 @@ class Digraph:
 
     def dfsShowResults(self):
         """Imprime os resultados da busca em profundidade"""
-        print("Vertex | Start | Finish | Parent")
+        print(" Vertex | Start | Finish | Parent")
         print("------------------------------------")
         for v in self.vertices:
-            print(f"{v}       | {self.dfs.start_time[v]}         | {self.dfs.finish_time[v]}       | {self.dfs.parent[v]}")
+            space0: str = " " * (6 - math.floor(math.log10(max(1, v))))
+            space1: str = " " * (6 - math.floor(math.log10(max(1, self.dfs.start_time[v]))))
+            space2: str = " " * (7 - math.floor(math.log10(max(1, self.dfs.finish_time[v]))))
+            print(f" {v}{space0}|{self.dfs.start_time[v]}{space1}|{self.dfs.finish_time[v]}{space2}|{self.dfs.parent[v]}")
 
     def printGraph(self) -> None:
         print("="*40)
@@ -163,10 +167,10 @@ class Digraph:
             print(" " + str(i) + ": " + str(self.adjList[i]))
 
 if __name__ == '__main__':
-    data = readMatrixTxt("examples\\adj_matrix.txt")
-    data = readJson("examples\\graph1.json")
+    data = readMatrixTxt("examples\\adj-matrixes\\adj_matrix2.txt")
+    #data = readJson("examples\\graph1.json")
     graph = Digraph(data)
     graph.printGraph()
-    graph.dfsStart(1)
+    graph.dfsStart(4)
     graph.dfsShowResults()
     print(graph.vertices)

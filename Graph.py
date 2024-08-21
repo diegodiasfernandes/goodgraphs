@@ -1,28 +1,41 @@
 from Utils.typehinting import *
 from Utils.files import readJson, readMatrixTxt
+import math
 
 class Graph:
+    class DFS:
+        def __init__(self, vertices: list[int]) -> None:
+            self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in vertices}
+            self.parent: Dict[int, Union[int, None]] = {v: None for v in vertices}
+            self.start_time: Dict[int, int] = {v: 0 for v in vertices}
+            self.finish_time: Dict[int, int] = {v: 0 for v in vertices}
+            self.time: int = 0
+
     def __init__(self, data: dict | list[list[Union[int, float]]]) -> None:
         '''
         example of graph:
         adjacencyList = {
-            0: [(1, 1)]
-            1: [(0, 1), (2, 1)]
-            2: [(1, 1)]
+            0: [(1, 2.75)]
+            1: [(2, 3.91)]
+            2: []
         }
         '''
         self.n: int = 0
         self.m: int = 0
         self.mind: int | None = 0
         self.maxd: int | None = 0
+        self.vertices: list[int] = [-1]
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
+
+        self.dfs = self.DFS(self.vertices)
         
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
         self.m = 0
         self.mind = None
         self.maxd = None
+        self.vertices = list(range(self.n))
         for vertex in self.adjList:
             deg = len(self.adjList[vertex])
             self.m += deg
@@ -108,6 +121,41 @@ class Graph:
         
         return 0.0
 
+    def dfsStart(self, initial: int = 0):
+        self.dfs = self.DFS(self.vertices)
+
+        vertices = self.vertices
+        vertices = [v for v in self.vertices if v != initial]
+        self.dfsSearch(initial)
+
+        for v in vertices:
+            if self.dfs.color[v] == 'white':
+                self.dfsSearch(v)
+    
+    def dfsSearch(self, vertex: int):
+        self.dfs.time += 1
+        self.dfs.start_time[vertex] = self.dfs.time
+        self.dfs.color[vertex] = "gray"
+
+        for neighbor in self.neighbors(vertex):
+            if self.dfs.color[neighbor] == "white":
+                self.dfs.parent[neighbor] = vertex
+                self.dfsSearch(neighbor)
+        
+        self.dfs.color[vertex] = "black"
+        self.dfs.time += 1
+        self.dfs.finish_time[vertex] = self.dfs.time
+
+    def dfsShowResults(self):
+        """Imprime os resultados da busca em profundidade"""
+        print(" Vertex | Start | Finish | Parent")
+        print("------------------------------------")
+        for v in self.vertices:
+            space0: str = " " * (6 - math.floor(math.log10(max(1, v))))
+            space1: str = " " * (6 - math.floor(math.log10(max(1, self.dfs.start_time[v]))))
+            space2: str = " " * (7 - math.floor(math.log10(max(1, self.dfs.finish_time[v]))))
+            print(f" {v}{space0}|{self.dfs.start_time[v]}{space1}|{self.dfs.finish_time[v]}{space2}|{self.dfs.parent[v]}")
+
     def printGraph(self) -> None:
         print("="*40)
         print("Adjacency List: ")
@@ -115,13 +163,10 @@ class Graph:
             print(" " + str(i) + ": " + str(self.adjList[i]))
 
 if __name__ == '__main__':
-    data = readJson("examples\\undir_weights_1.json")
+    data = readMatrixTxt("examples\\adj-matrixes\\adj_matrix2.txt")
+    #data = readJson("examples\\graph1.json")
     graph = Graph(data)
     graph.printGraph()
-    print(graph.n)
-    print(graph.m)
-    print(graph.mind)
-    print(graph.maxd)
-    print(graph.neighbors(3))
-    print(graph.degree(3))
-    print(graph.weight(4, 0))
+    graph.dfsStart()
+    graph.dfsShowResults()
+    print(graph.vertices)
