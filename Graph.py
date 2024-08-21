@@ -118,6 +118,13 @@ class Graph:
         from SearchClasses.DFS import DFS
         self.dfs = DFS(self)
         self.dfs.start(initial)
+    
+    def dfsAttributes(self):
+        if self.dfs is None:
+            print("dfs not initializes yet. Run self.dfsStart()")
+            return None
+        
+        return self.dfs.pi, self.dfs.t_init, self.dfs.t_finish
 
     def dfsShowResults(self):
         if self.dfs is None:
@@ -139,4 +146,4 @@ if __name__ == '__main__':
     graph.printGraph()
     graph.dfsStart(2)
     graph.dfsShowResults()
-    print(graph.vertices)
+    print(graph.dfsAttributes()[0][2])

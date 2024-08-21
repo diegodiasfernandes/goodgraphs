@@ -123,6 +123,13 @@ class Digraph:
         self.dfs = DFS(self)
         self.dfs.start(initial)
 
+    def dfsAttributes(self):
+        if self.dfs is None:
+            print("dfs not initializes yet. Run self.dfsStart()")
+            return None
+        
+        return self.dfs.pi, self.dfs.t_init, self.dfs.t_finish
+
     def dfsShowResults(self):
         if self.dfs is None:
             print("dfs not initializes yet. Run self.dfsStart()")
@@ -141,6 +148,6 @@ if __name__ == '__main__':
     #data = readJson("examples\\graph1.json")
     graph = Digraph(data)
     graph.printGraph()
-    graph.dfsStart()
+    graph.dfsStart(6)
     graph.dfsShowResults()
     print(graph.vertices)
