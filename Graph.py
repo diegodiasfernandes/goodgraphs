@@ -20,8 +20,9 @@ class Graph:
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
 
-        from SearchClasses.DFS import DFS
-        self.dfs: DFS | None = None
+        from SearchClasses import DFS, BFS
+        self.dfs: DFS.DFS | None = None
+        self.bfs: BFS.BFS | None = None
         
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
@@ -133,6 +134,26 @@ class Graph:
             return None
         
         self.dfs.showResults()
+
+    def bfsStart(self, initial: int = 0):
+        if initial not in self.vertices: initial = self.vertices[0]
+        from SearchClasses.BFS import BFS
+        self.bfs = BFS(self)
+        self.bfs.start(initial)
+    
+    def bfsAttributes(self):
+        if self.bfs is None:
+            print("bfs not initializes yet. Run self.bfsStart()")
+            return None
+        
+        return self.bfs.pi, self.bfs.distance
+
+    def bfsShowResults(self):
+        if self.bfs is None:
+            print("bfs not initializes yet. Run self.bfsStart()")
+            return None
+        
+        self.bfs.showResults()
 
     def printGraph(self) -> None:
         print("="*40)
