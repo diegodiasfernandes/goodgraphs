@@ -4,8 +4,8 @@ class MainGraph:
     def __init__(self, data: dict | list[list[Union[int, float]]]) -> None:
         self.n: int = 0
         self.m: int = 0
-        self.mind: int | None = 0
-        self.maxd: int | None = 0
+        self.mind: int | None = None
+        self.maxd: int | None = None
         self.vertices: list[int] = [-1]
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
@@ -87,7 +87,9 @@ class MainGraph:
     
     def minPathDijkstra(self, u: int, v : int):
         if self.dijks is None:
-            self.dijkstra(u)
+            from SearchClasses.Dijkstra import Dijkstra
+            self.dijks = Dijkstra(self)
+            self.dijks.start(u)
 
         return self.dijks.minPath(u, v)
 
