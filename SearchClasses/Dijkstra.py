@@ -17,14 +17,14 @@ class Dijkstra:
             return None
 
         self.distance[initial] = 0
-        heap = [(0, initial)]
+        heap: list[tuple[float, int]] = [(0.0, initial)]
 
         while heap:
             u_d, u = heapq.heappop(heap)
 
             if not(u_d > self.distance[u]):
                 for neighbor in self.graph.neighbors(u):
-                    weight = self.graph.weight(u, neighbor)
+                    weight: float = self.graph.weight(u, neighbor)
                     distance = u_d + weight
 
                     if distance < self.distance[neighbor]:
@@ -39,7 +39,7 @@ class Dijkstra:
             self.start(u)
         
         path = []
-        curr_vertex = v
+        curr_vertex: int | None = v
         while curr_vertex is not None:
             path.append(curr_vertex)
             curr_vertex = self.pi[curr_vertex]
