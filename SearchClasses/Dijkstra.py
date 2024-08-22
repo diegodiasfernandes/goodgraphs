@@ -1,11 +1,10 @@
 import heapq
 import math
 from Utils.typehinting import *
-from Graph import Graph
-from Digraph import Digraph
+from MainGraph import MainGraph
 
 class Dijkstra:
-    def __init__(self, graph: Graph | Digraph) -> None:
+    def __init__(self, graph: MainGraph) -> None:
         self.pi: Dict[int, Union[int, None]] = {v: None for v in graph.vertices}
         self.distance: Dict[int, float] = {v: math.inf for v in graph.vertices}
 

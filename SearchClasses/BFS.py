@@ -1,10 +1,9 @@
 import math
 from Utils.typehinting import *
-from Graph import Graph
-from Digraph import Digraph
+from MainGraph import MainGraph
 
 class BFS:
-    def __init__(self, graph: Graph | Digraph) -> None:
+    def __init__(self, graph: MainGraph) -> None:
         self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in graph.vertices}
         self.pi: Dict[int, Union[int, None]] = {v: None for v in graph.vertices}
         self.distance: Dict[int, float] = {v: math.inf for v in graph.vertices}

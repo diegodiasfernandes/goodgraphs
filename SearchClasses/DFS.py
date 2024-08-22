@@ -1,10 +1,9 @@
 from Utils.typehinting import *
 import math
-from Graph import Graph
-from Digraph import Digraph
+from MainGraph import MainGraph
 
 class DFS:
-    def __init__(self, graph: Graph | Digraph) -> None:
+    def __init__(self, graph: MainGraph) -> None:
         self.color: Dict[int, Literal["white", "gray", "black"]] = {v: "white" for v in graph.vertices}
         self.pi: Dict[int, Union[int, None]] = {v: None for v in graph.vertices}
         self.t_init: Dict[int, int] = {v: 0 for v in graph.vertices}
