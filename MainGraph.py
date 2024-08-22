@@ -1,6 +1,7 @@
+from abc import ABC, abstractmethod
 from Utils.typehinting import *
 
-class MainGraph:
+class MainGraph(ABC):
     def __init__(self, data: dict | list[list[Union[int, float]]]) -> None:
         self.n: int = 0
         self.m: int = 0
@@ -15,6 +16,14 @@ class MainGraph:
         self.bfs: BFS.BFS | None = None
         self.dijks: Dijkstra.Dijkstra | None = None
         
+    @abstractmethod
+    def getAdjacencyList(self, data: dict | list[list[Union[int, float]]]) -> Dict[int, List[tuple[int, float]]]:
+        pass
+    
+    @abstractmethod
+    def degree(self, vertex: int):
+        pass
+
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
         self.m = 0
@@ -98,9 +107,3 @@ class MainGraph:
         print("Adjacency List: ")
         for i in self.adjList:
             print(" " + str(i) + ": " + str(self.adjList[i]))
-
-    def getAdjacencyList(self, data: dict | list[list[Union[int, float]]]) -> Dict[int, List[tuple[int, float]]]:
-        raise NotImplementedError("Subclasses should implement this method.")
-
-    def degree(self, vertex: int):
-        raise NotImplementedError("Subclasses should implement this method.")
