@@ -13,7 +13,12 @@ class BFS:
         self.distance: Dict[int, float] = {v: math.inf for v in graph.vertices}
         self.graph = graph
 
-    def start(self, initial: int = 0):
+        self.last_initial: int | None = None
+
+    def start(self, initial: int = 0) -> None:
+        if self.last_initial == initial: 
+            return None
+        
         self.distance[initial] = 0
         self.color[initial] = 'gray'
 
@@ -28,6 +33,8 @@ class BFS:
                     stack.append(neighbor)
 
             self.color[u] = 'black'
+        
+        self.last_initial = initial
     
     def showResults(self):
         print("--------------------------------------------")
