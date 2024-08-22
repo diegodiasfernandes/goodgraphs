@@ -37,9 +37,9 @@ class BFS:
         print(" Vertex | Distance | Predecessor (pi)")
         print("--------------------------------------------")
         for v in self.graph.vertices:
-            space0: str = " " * (6 - math.floor(math.log10(max(1, v))))
+            space0 = " " * (6 - math.floor(math.log10(max(1, v))))
             if self.distance[v] != math.inf:
-                space1: str = " " * (9 - math.floor(math.log10(max(1, self.distance[v]))))
+                space1 = " " * (9 - math.floor(math.log10(max(1, self.distance[v]))))
             else:
-                space1: str = " " * (9 - 2)
+                space1 = " " * (9 - 2)
             print(f" {v}{space0}|{self.distance[v]}{space1}|{self.pi[v]}")
