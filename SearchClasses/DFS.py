@@ -15,16 +15,21 @@ class DFS:
         self.time: int = 0
         self.graph = graph
 
-    def start(self, initial: int = 0):
+        self.last_initial: int | None = None
+
+    def start(self, initial: int = 0) -> None:
+        if self.last_initial == initial: 
+            return None
+        
         vertices = [v for v in self.graph.vertices if v != initial]
 
-        # Iniciar a busca no vértice inicial
         self.search(initial)
 
-        # Continuar a busca para qualquer outro vértice não alcançado
         for v in vertices:
             if self.color[v] == 'white':
                 self.search(v)
+        
+        self.last_initial = initial
 
     def search(self, vertex: int):
         # Pilha para armazenar o estado da busca
