@@ -11,10 +11,11 @@ class MainGraph(ABC):
         self.adjList = self.getAdjacencyList(data)
         self.adjustAttributes()
 
-        from SearchClasses import DFS, BFS, Dijkstra
+        from SearchClasses import DFS, BFS, Dijkstra, BellmanFord
         self.dfs: DFS.DFS | None = None
         self.bfs: BFS.BFS | None = None
         self.dijks: Dijkstra.Dijkstra | None = None
+        self.bf: BellmanFord.BellmanFord | None = None
         
     @abstractmethod
     def getAdjacencyList(self, data: dict | list[list[Union[int, float]]]) -> Dict[int, List[tuple[int, float]]]:
@@ -101,6 +102,15 @@ class MainGraph(ABC):
             self.dijks.start(u)
 
         return self.dijks.minPath(u, v)
+    
+    def BF(self, initial: int = 0):
+        if self.bf is None:
+            if initial not in self.vertices: initial = self.vertices[0]
+            from SearchClasses.BellmanFord import BellmanFord
+            self.bf = BellmanFord(self)
+            self.bf.start(initial)
+        
+        return self.bf.pi, self.bf.distance
 
     def printGraph(self) -> None:
         print("="*40)
