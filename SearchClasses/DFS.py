@@ -55,7 +55,7 @@ class DFS:
         print(" Vertex | Start | Finish | Predecessor (pi)")
         print("--------------------------------------------")
         for v in self.graph.vertices:
-            space0: str = " " * (6 - math.floor(math.log10(max(1, v))))
-            space1: str = " " * (6 - math.floor(math.log10(max(1, self.t_init[v]))))
-            space2: str = " " * (7 - math.floor(math.log10(max(1, self.t_finish[v]))))
+            space0 = " " * (6 - math.floor(math.log10(max(1, v))))
+            space1 = " " * (6 - math.floor(math.log10(max(1, self.t_init[v]))))
+            space2 = " " * (7 - math.floor(math.log10(max(1, self.t_finish[v]))))
             print(f" {v}{space0}|{self.t_init[v]}{space1}|{self.t_finish[v]}{space2}|{self.pi[v]}")
