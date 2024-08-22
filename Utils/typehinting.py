@@ -1,4 +1,4 @@
-from typing import TypedDict, List, Union, Dict, Literal
+from typing import TypedDict, List, Union, Dict, Literal, cast
 
 class GraphDict(TypedDict):
     graph_type: Literal['undirected', 'directed', None]

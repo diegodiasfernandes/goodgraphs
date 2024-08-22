@@ -24,7 +24,7 @@ class Dijkstra:
 
             if not(u_d > self.distance[u]):
                 for neighbor in self.graph.neighbors(u):
-                    weight: float = self.graph.weight(u, neighbor)
+                    weight: float = cast(float, self.graph.weight(u, neighbor))
                     distance = u_d + weight
 
                     if distance < self.distance[neighbor]:
