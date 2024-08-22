@@ -1,6 +1,3 @@
-import sys
-sys.path.append("..\goodgraphs")
-
 from typing import TypedDict, List, Union, Dict, Literal
 
 class GraphDict(TypedDict):

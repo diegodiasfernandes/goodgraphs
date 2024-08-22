@@ -1,6 +1,3 @@
-import sys
-sys.path.append("..\goodgraphs")
-
 import math
 from Utils.typehinting import *
 from Graph import Graph

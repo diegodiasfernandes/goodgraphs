@@ -1,6 +1,3 @@
-import sys
-sys.path.append("..\goodgraphs")
-
 import heapq
 import math
 from Utils.typehinting import *
