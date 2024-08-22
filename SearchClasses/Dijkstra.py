@@ -17,6 +17,9 @@ class Dijkstra:
         self.last_initial: int | None = None
     
     def start(self, initial: int = 0) -> None:
+        if self.last_initial == initial: 
+            return None
+
         self.distance[initial] = 0
         heap = [(0, initial)]
 
