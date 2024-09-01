@@ -64,8 +64,6 @@ class Graph(MainGraph):
     def adjustAttributes(self) -> None:
         self.n = len(self.adjList)
         self.m = 0
-        self.mind = None
-        self.maxd = None
         self.vertices = [v for v in self.adjList]
         degrees = {v:0 for v in self.vertices}
         for vertex in self.adjList:
