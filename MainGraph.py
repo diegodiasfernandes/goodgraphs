@@ -22,23 +22,12 @@ class MainGraph(ABC):
         pass
     
     @abstractmethod
-    def degree(self, vertex: int):
+    def degree(self, vertex: int) -> int:
         pass
 
+    @abstractmethod
     def adjustAttributes(self) -> None:
-        self.n = len(self.adjList)
-        self.m = 0
-        self.mind = None
-        self.maxd = None
-        self.vertices = [v for v in self.adjList]
-        for vertex in self.adjList:
-            deg = len(self.adjList[vertex])
-            self.m += deg
-
-            if self.mind is None or self.mind > deg:
-                self.mind = deg
-            if self.maxd is None or self.maxd < deg:
-                self.maxd = deg
+        pass
     
     def neighbors(self, vertex: int):
         neighbs: list[int] = []

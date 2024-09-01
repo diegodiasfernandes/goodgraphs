@@ -61,5 +61,21 @@ class Graph(MainGraph):
         
         return adj_list
     
-    def degree(self, vertex: int):
+    def adjustAttributes(self) -> None:
+        self.n = len(self.adjList)
+        self.m = 0
+        self.mind = None
+        self.maxd = None
+        self.vertices = [v for v in self.adjList]
+        degrees = {v:0 for v in self.vertices}
+        for vertex in self.adjList:
+            num_edges = len(self.adjList[vertex])
+            self.m += num_edges
+
+            degrees[vertex] += num_edges
+
+        self.mind = min(degrees.values())
+        self.maxd = max(degrees.values())
+
+    def degree(self, vertex: int) -> int:
         return len(self.adjList[vertex])
